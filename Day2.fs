@@ -11,97 +11,77 @@ type RPS =
     | Rock
     | Paper
     | Scissors
-    | NoPlay
 
 type Strategy =
     | Win
     | Lose
     | Draw
-    | NoStrategy
 
 let parseRPS str =
     match str with
     | "A"
-    | "X" -> Rock
+    | "X" -> Some Rock
     | "B"
-    | "Y" -> Paper
+    | "Y" -> Some Paper
     | "C"
-    | "Z" -> Scissors
-    | _ -> NoPlay
+    | "Z" -> Some Scissors
+    | _ -> None
 
 let parseStrategy str =
     match str with
-    | "X" -> Lose
-    | "Y" -> Draw
-    | "Z" -> Win
-    | _ -> NoStrategy
+    | "X" -> Some Lose
+    | "Y" -> Some Draw
+    | "Z" -> Some Win
+    | _ -> None
 
 // Rock, Paper, Scissors
 let getScore theirs mine =
     match mine with
-    | NoPlay -> None
     | Rock ->
-        Option.map2
-            (+)
-            (Some 1)
-            (match theirs with
-             | Rock -> Some 3
-             | Paper -> Some 0
-             | Scissors -> Some 6
-             | NoPlay -> None)
+        1
+        + (match theirs with
+           | Rock -> 3
+           | Paper -> 0
+           | Scissors -> 6)
     | Paper ->
-        Option.map2
-            (+)
-            (Some 2)
-            (match theirs with
-             | Rock -> Some 6
-             | Paper -> Some 3
-             | Scissors -> Some 0
-             | NoPlay -> None)
+        2
+        + (match theirs with
+           | Rock -> 6
+           | Paper -> 3
+           | Scissors -> 0)
     | Scissors ->
-        Option.map2
-            (+)
-            (Some 3)
-            (match theirs with
-             | Rock -> Some 0
-             | Paper -> Some 6
-             | Scissors -> Some 3
-             | NoPlay -> None)
+        3
+        + (match theirs with
+           | Rock -> 0
+           | Paper -> 6
+           | Scissors -> 3)
 
 // Rock, Paper, Scissors
 let getScore2 theirs mine =
     match mine with
-    | NoStrategy -> None
     | Lose ->
         match theirs with
-        | Rock -> Some 3
-        | Paper -> Some 1
-        | Scissors -> Some 2
-        | NoPlay -> None
+        | Rock -> 3
+        | Paper -> 1
+        | Scissors -> 2
     | Draw ->
-        Option.map2
-            (+)
-            (Some 3)
-            (match theirs with
-             | Rock -> Some 1
-             | Paper -> Some 2
-             | Scissors -> Some 3
-             | NoPlay -> None)
+        3
+        + (match theirs with
+           | Rock -> 1
+           | Paper -> 2
+           | Scissors -> 3)
     | Win ->
-        Option.map2
-            (+)
-            (Some 6)
-            (match theirs with
-             | Rock -> Some 2
-             | Paper -> Some 3
-             | Scissors -> Some 1
-             | NoPlay -> None)
+        6
+        + (match theirs with
+           | Rock -> 2
+           | Paper -> 3
+           | Scissors -> 1)
 
 real
 |> List.map (
     words
     >> toTuple
-    >> Option.bind (fun (a, b) -> getScore (parseRPS a) (parseRPS b))
+    >> Option.bind (fun (a, b) -> Option.map2 getScore (parseRPS a) (parseRPS b))
     >> Option.defaultValue 0
 )
 |> List.sum
@@ -111,7 +91,7 @@ real
 |> List.map (
     words
     >> toTuple
-    >> Option.bind (fun (a, b) -> getScore2 (parseRPS a) (parseStrategy b))
+    >> Option.bind (fun (a, b) -> Option.map2 getScore2 (parseRPS a) (parseStrategy b))
     >> Option.defaultValue 0
 )
 |> List.sum
