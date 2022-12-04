@@ -18,11 +18,3 @@ let toTuple ls =
     match ls with
     | [ a; b ] -> Some(a, b)
     | _ -> None
-
-let rec apperture' lls rem n =
-    if List.length rem >= n then
-        apperture' (List.append lls [ (List.take n rem) ]) (List.skip n rem) n
-    else
-        (if List.length rem = 0 then lls else List.append lls [ rem ])
-
-let apperture n ls = apperture' [] ls n

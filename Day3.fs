@@ -27,7 +27,7 @@ real
 |> printfn "%A"
 
 real
-|> (apperture 3)
+|> (List.chunkBySize 3)
 |> List.map findAndConvertMatches
 |> List.sum
 |> printfn "%A"
