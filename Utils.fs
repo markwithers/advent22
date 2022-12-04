@@ -12,6 +12,8 @@ let parseInt = tryParseWith System.Int32.TryParse
 
 let words = splitChar [| ' ' |] >> Array.toList
 
+let split c s = s |> splitChar [| c |] |> Array.toList
+
 let toTuple ls =
     match ls with
     | [ a; b ] -> Some(a, b)
