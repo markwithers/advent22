@@ -1,9 +1,8 @@
 module Day3
 
 open System.IO
-open Utils
 
-let real = @"3.txt" |> File.ReadAllLines |> Seq.toList
+let real = @"3.txt" |> File.ReadAllLines
 
 let mock =
     [ "vJrwpWtwJgWrhcsFMMfFFhFp"
@@ -15,19 +14,19 @@ let mock =
 
 let inline findAndConvertMatches ls =
     ls
-    |> List.map Set.ofSeq
+    |> Seq.map Set.ofSeq
     |> Set.intersectMany
     |> Set.map (int >> (fun i -> i - 96) >> (fun i -> if i < 0 then i + 58 else i)) // HA HA LOL!
-    |> Set.toList
-    |> List.head
+    |> Set.toSeq
+    |> Seq.head
 
 real
-|> List.map (Seq.toList >> List.splitInto 2 >> findAndConvertMatches)
-|> List.sum
+|> Seq.map (Seq.splitInto 2 >> findAndConvertMatches)
+|> Seq.sum
 |> printfn "%A"
 
 real
-|> (List.chunkBySize 3)
-|> List.map findAndConvertMatches
-|> List.sum
+|> Seq.chunkBySize 3
+|> Seq.map findAndConvertMatches
+|> Seq.sum
 |> printfn "%A"
