@@ -3,7 +3,7 @@ module Day2
 open System.IO
 open Utils
 
-let real = @"2.txt" |> File.ReadAllLines |> Seq.toList
+let real = @"2.txt" |> File.ReadAllLines
 
 let mock = [ "A Y"; "B X"; "C Z" ]
 
@@ -78,21 +78,21 @@ let getScore2 theirs mine =
            | Scissors -> 1)
 
 real
-|> List.map (
+|> Seq.map (
     words
     >> toTuple
     >> Option.bind (fun (a, b) -> Option.map2 getScore (parseRPS a) (parseRPS b))
     >> Option.defaultValue 0
 )
-|> List.sum
+|> Seq.sum
 |> printfn "%A"
 
 real
-|> List.map (
+|> Seq.map (
     words
     >> toTuple
     >> Option.bind (fun (a, b) -> Option.map2 getScore2 (parseRPS a) (parseStrategy b))
     >> Option.defaultValue 0
 )
-|> List.sum
+|> Seq.sum
 |> printfn "%A"

@@ -10,11 +10,11 @@ let tryParseWith (tryParseFunc: string -> bool * _) =
 
 let parseInt = tryParseWith System.Int32.TryParse
 
-let words = splitChar [| ' ' |] >> Array.toList
+let words = splitChar [| ' ' |]
 
-let split c s = s |> splitChar [| c |] |> Array.toList
+let split c s = s |> splitChar [| c |]
 
-let toTuple ls =
-    match ls with
+let toTuple ss =
+    match (List.ofSeq ss) with
     | [ a; b ] -> Some(a, b)
     | _ -> None
