@@ -1,6 +1,7 @@
 module Utils
 
 open FSharpx.String
+open FSharpx.Prelude
 
 let tryParseWith (tryParseFunc: string -> bool * _) =
     tryParseFunc
@@ -18,3 +19,5 @@ let toTuple ss =
     match (List.ofSeq ss) with
     | [ a; b ] -> Some(a, b)
     | _ -> None
+
+let (<*>) = flip
