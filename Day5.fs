@@ -32,7 +32,7 @@ let getMatches (regex: Regex) str =
     let mc = regex.Matches str
 
     match mc.Count with
-    | 3 -> Some(((mc.Item 0).Value |> int), ((mc.Item 1).Value |> int), ((mc.Item 2).Value |> int))
+    | 3 -> Some((mc.Item 0).Value |> int, (mc.Item 1).Value |> int, (mc.Item 2).Value |> int)
     | _ -> None
 
 let move' fn qty start dest crate =
