@@ -21,3 +21,5 @@ let toTuple ss =
     | _ -> None
 
 let (<*>) = flip
+
+let startsWith = startsWith
